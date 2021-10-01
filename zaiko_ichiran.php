@@ -26,10 +26,15 @@ $db_host="localhost";
 $db_port="3306";
 $db_user="zaiko2021_yse";
 $db_password="2021zaiko";
-$dsn = "mysql:dbname={$db_name};host={$db_host};charset=utf8;port={$db_port}";
 
-$sql = "SELECT * FROM books WHERE zaiko2021_yse = '{$db_name}'";
-// $stmt = $pdo->prepare($sql);
+
+$dsn = "mysql:dbname={$db_name};host={$db_host};charset=utf8;port={$db_port}";
+// $pdo = new PDO($dsn);
+// $sql = "SELECT * FROM books WHERE zaiko2021_yse = '{$db_name}'";
+// $stmt = $pdo -> prepare($sql);
+// $stmt->bindParam('zaiko2021_yse', $db_name, PDO::PARAM_STR);
+// $stmt->execute();
+// $db_user = $stmt->fetch(PDO::FETCH_ASSOC);
 //⑦書籍テーブルから書籍情報を取得するSQLを実行する。また実行結果を変数に保存する
 ?>
 <!DOCTYPE html>
@@ -89,20 +94,20 @@ $sql = "SELECT * FROM books WHERE zaiko2021_yse = '{$db_name}'";
 					<tbody>
 						<?php
 						//⑩SQLの実行結果の変数から1レコードのデータを取り出す。レコードがない場合はループを終了する。
-						while($book=$stmt ->fetch(PDO::FETCH_ASSOC)/* ⑩の処理を書く */){
-							// //⑪extract変数を使用し、1レコードのデータを渡す。
+						// while($book=$stmt ->fetch(PDO::FETCH_ASSOC)/* ⑩の処理を書く */){
+						// 	// //⑪extract変数を使用し、1レコードのデータを渡す。
 
-							// echo "<tr id='book'>";
-							// echo "<td id='check'><input type='checkbox' name='books[]'value="./* ⑫IDを設定する */."></td>";
-							// echo "<td id='id'>/* ⑬IDを表示する */</td>";
-							// echo "<td id='title'>/* ⑭titleを表示する */</td>";
-							// echo "<td id='author'>/* ⑮authorを表示する */</td>";
-							// echo "<td id='date'>/* ⑯salesDateを表示する */</td>";
-							// echo "<td id='price'>/* ⑰priceを表示する */</td>";
-							// echo "<td id='stock'>/* ⑱stockを表示する */</td>";
+						// 	echo "<tr id='book'>";
+						// 	echo "<td id='check'><input type='checkbox' name='books[]'value="./* ⑫IDを設定する */."></td>";
+						// 	echo "<td id='id'>/* ⑬IDを表示する */</td>";
+						// 	echo "<td id='title'>/* ⑭titleを表示する */</td>";
+						// 	echo "<td id='author'>/* ⑮authorを表示する */</td>";
+						// 	echo "<td id='date'>/* ⑯salesDateを表示する */</td>";
+						// 	echo "<td id='price'>/* ⑰priceを表示する */</td>";
+						// 	echo "<td id='stock'>/* ⑱stockを表示する */</td>";
 
-							// echo "</tr>";
-						}
+						// 	echo "</tr>";
+						// }
 						?>
 					</tbody>
 				</table>
