@@ -10,18 +10,23 @@
 出荷する商品が選択されていません：商品が一つも選択されていない状態で出荷ボタンを押す
 */
 
-//①セッションを開始する
+session_start();
 
 //②SESSIONの「login」フラグがfalseか判定する。「login」フラグがfalseの場合はif文の中に入る。
-if (/* ②の処理を書く */){
-	//③SESSIONの「error2」に「ログインしてください」と設定する。
-	//④ログイン画面へ遷移する。
-}
+// if (/* ②の処理を書く */){
+// 	//③SESSIONの「error2」に「ログインしてください」と設定する。
+// 	//④ログイン画面へ遷移する。
+// }
 
-//⑤データベースへ接続し、接続情報を変数に保存する
+$db_name="zaiko2021_yse";
+$db_host="localhost";
+$db_port="3306";
+$db_user="zaiko2021_yse";
+$db_password="2021zaiko";
+$dsn = "mysql:dbname={$db_name};host={$db_host};charset=utf8;port={$db_port}";
 
-//⑥データベースで使用する文字コードを「UTF8」にする
-
+$sql = "SELECT * FROM title WHERE zaiko2021_yse = '{$db_name}'";
+$message_array = $pdo->query($sql);
 //⑦書籍テーブルから書籍情報を取得するSQLを実行する。また実行結果を変数に保存する
 ?>
 <!DOCTYPE html>
@@ -81,7 +86,7 @@ if (/* ②の処理を書く */){
 					<tbody>
 						<?php
 						//⑩SQLの実行結果の変数から1レコードのデータを取り出す。レコードがない場合はループを終了する。
-						while(/* ⑩の処理を書く */){
+						while($book=$stmt ->fetch(PDO::FETCH_ASSOC)){
 							//⑪extract変数を使用し、1レコードのデータを渡す。
 
 							echo "<tr id='book'>";
