@@ -26,15 +26,24 @@ $db_host="localhost";
 $db_port="3306";
 $db_user="zaiko2021_yse";
 $db_password="2021zaiko";
-
-
 $dsn = "mysql:dbname={$db_name};host={$db_host};charset=utf8;port={$db_port}";
-// $pdo = new PDO($dsn);
-// $sql = "SELECT * FROM books WHERE zaiko2021_yse = '{$db_name}'";
-// $stmt = $pdo -> prepare($sql);
-// $stmt->bindParam('zaiko2021_yse', $db_name, PDO::PARAM_STR);
-// $stmt->execute();
-// $db_user = $stmt->fetch(PDO::FETCH_ASSOC);
+
+try {
+    $pdo = new PDO($dsn, $db_user, $db_password);
+    $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+    $pdo->setAttribute(PDO::ATTR_EMULATE_PREPARES, false);
+} catch (PDOException $e) {
+    echo "接続失敗: " . $e->getMessage();
+    exit;
+}
+
+$books=getBooks($pdo);
+function getBooks($pdo,$limit=20,$offset=0){
+	$sql = "SELECT * FROM books";
+	$stmt = $pdo -> prepare($sql);
+	$stmt->execute();
+}
+
 //⑦書籍テーブルから書籍情報を取得するSQLを実行する。また実行結果を変数に保存する
 ?>
 <!DOCTYPE html>
@@ -92,13 +101,24 @@ $dsn = "mysql:dbname={$db_name};host={$db_host};charset=utf8;port={$db_port}";
 						</tr>
 					</thead>
 					<tbody>
-						<?php
-						//⑩SQLの実行結果の変数から1レコードのデータを取り出す。レコードがない場合はループを終了する。
+					<?php foreach($books as $books) : ?>
+							<?php extract($books);?>
+							<tr id="books">
+								echo "<td id='check'><input type='checkbox' name='books[]'value="<?=$books?>"></td>";
+								echo "<td id='id'><?=$id?></td>";
+								echo "<td id='title'><?=$title?></td>";
+								echo "<td id='author'><?=$author?></td>";
+								echo "<td id='date'><?=$date?></td>";
+								echo "<td id='price'><?=$price?></td>";
+								echo "<td id='stock'><?=$stock?></td>";
+							</tr>
+						<?php endforeach ?>
+						<!-- // // ⑩SQLの実行結果の変数から1レコードのデータを取り出す。レコードがない場合はループを終了する。
 						// while($book=$stmt ->fetch(PDO::FETCH_ASSOC)/* ⑩の処理を書く */){
 						// 	// //⑪extract変数を使用し、1レコードのデータを渡す。
-
+						// 	extract ( array &$array [, int $flags = EXTR_OVERWRITE [, string $prefix = NULL ]] ) : int
 						// 	echo "<tr id='book'>";
-						// 	echo "<td id='check'><input type='checkbox' name='books[]'value="./* ⑫IDを設定する */."></td>";
+						// 	echo "<td id='check'><input type='checkbox' name='books[]'value=".$books/* ⑫IDを設定する */."></td>";
 						// 	echo "<td id='id'>/* ⑬IDを表示する */</td>";
 						// 	echo "<td id='title'>/* ⑭titleを表示する */</td>";
 						// 	echo "<td id='author'>/* ⑮authorを表示する */</td>";
@@ -107,8 +127,8 @@ $dsn = "mysql:dbname={$db_name};host={$db_host};charset=utf8;port={$db_port}";
 						// 	echo "<td id='stock'>/* ⑱stockを表示する */</td>";
 
 						// 	echo "</tr>";
-						// }
-						?>
+						// } -->
+						
 					</tbody>
 				</table>
 			</div>
