@@ -28,16 +28,15 @@ if(isset($_POST['decisio'])) {
 		$password = $_POST["pass"];
 	} else {
 		//⑤名前かパスワードが入力されていない場合は、「名前かパスワードが未入力です」という文言をメッセージを入れる変数に設定する
-		
 			$message = "名前かパスワードが未入力です。";
         
      }
 }
 
 //⑦名前が入力されているか判定する。入力されていた場合はif文の中に入る
-if (!empty($user_name)){
+if (isset($user_name)){
 	//⑧名前に「yse」、パスワードに「2021」と設定されているか確認する。設定されていた場合はif文の中に入る
-	if ($user_name == "yse" && $passwoerd == 2021){
+	if (strcmp($user_name, "yse") && $password == 2021){
 		//⑨SESSIONに名前を設定し、SESSIONの「login」フラグをtrueにする
 		$_SESSION["name"]= $user_name;
 		$_SESSION["login"]=true;
