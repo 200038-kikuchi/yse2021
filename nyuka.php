@@ -14,20 +14,38 @@
  * ①session_status()の結果が「PHP_SESSION_NONE」と一致するか判定する。
  * 一致した場合はif文の中に入る。
  */
-if (/* ①.の処理を行う */) {
+if (/* ①の処理を書く */ session_status() == PHP_SESSION_NONE) {
 	//②セッションを開始する
+	session_start();
 }
 
 
 //③SESSIONの「login」フラグがfalseか判定する。「login」フラグがfalseの場合はif文の中に入る。
-if (/* ③の処理を書く */){
+if (empty(!$_SESSION['login'])){
 	//④SESSIONの「error2」に「ログインしてください」と設定する。
+	$_SESSION['error2'] = "ログインしてください";
 	//⑤ログイン画面へ遷移する。
+	header('Location: login.php');
 }
+$db_name = "zaiko2021_yse";
+$db_host = "localhost";
+$db_port = "3306";
+$db_user = "zaiko2021_yse";
+$db_pass = "2021zaiko";
 
 //⑥データベースへ接続し、接続情報を変数に保存する
-
 //⑦データベースで使用する文字コードを「UTF8」にする
+$dbh = new PDO("mysql:host=localhost;dbname=$dsn;", $username, $password, array(PDO::MYSQL_ATTR_INIT_COMMAND => 'SET NAMES utf8'));
+try{
+	$pdo = new PDO($db_name, $db_user, $db_pass);
+	$pdo -> setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+	$pdo -> setAttribute(PDO::ATTR_EMULATE_PREPARES, false);
+}catch (PDOException $e){
+	echo "接続失敗".$e->getMessage
+
+}
+
+
 
 //⑧POSTの「books」の値が空か判定する。空の場合はif文の中に入る。
 if(/* ⑧の処理を行う */){
@@ -41,9 +59,11 @@ function getId($id,$con){
 	 * その際にWHERE句でメソッドの引数の$idに一致する書籍のみ取得する。
 	 * SQLの実行結果を変数に保存する。
 	 */
-
+	$pdo2 = new PDO('mysql:host=localhost;dbname=$db_name;charset=utf8',$db_user,$db_pass);
+	$sql = "SELECT * FROM zaiko2021_yse WHERE id = $id";
 	//⑫実行した結果から1レコード取得し、returnで値を返す。
 }
+
 
 ?>
 <!DOCTYPE html>
@@ -51,7 +71,7 @@ function getId($id,$con){
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 	<title>入荷</title>
-	<link rel="stylesheet" href="css/ichiran.css" type="text/css" />
+	<link rel="styleshe0et" href="css/ichiran.css" type="text/css" />
 </head>
 <body>
 	<!-- ヘッダ -->
