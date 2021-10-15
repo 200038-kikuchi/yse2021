@@ -16,6 +16,8 @@ session_start();
 //①名前とパスワードを入れる変数を初期化する
 $user_name ="";
 $password ="";
+$message = "";
+$error = "";
 
 
 if(isset($_POST['decisio'])) {
@@ -27,7 +29,7 @@ if(isset($_POST['decisio'])) {
 	} else {
 		//⑤名前かパスワードが入力されていない場合は、「名前かパスワードが未入力です」という文言をメッセージを入れる変数に設定する
 		if(empty($_POST["name"]) || empty($_POST["pass"])) {
-			$mesage = "名前かパスワードが未入力です。";
+			$message = "名前かパスワードが未入力です。";
         }
      }
 }
@@ -43,7 +45,7 @@ if (!empty($user_name)){
 		header("Location:zaiko_ichiran.php");
 	}else{
 		//⑪名前もしくはパスワードが間違っていた場合は、「ユーザー名かパスワードが間違っています」という文言をメッセージを入れる変数に設定する
-		$mesage = '名前もしくはパスワードが間違っています。';
+		$message = '名前もしくはパスワードが間違っています。';
   		return false;
 	}
 }
@@ -71,7 +73,7 @@ if (isset($_SESSION["error2"])) {
 		echo "<div id='error'>", $error, "</div>";
 		
 		//⑯メッセージの変数に入っている値を表示する
-		echo "<div id='msg'>", $mesage, "</div>";
+		echo "<div id='msg'>", $message, "</div>";
 		?>
 		<form action="login.php" method="post" id="log">
 			<p>
