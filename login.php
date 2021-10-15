@@ -68,10 +68,10 @@ if (isset($_SESSION["error2"])) {
 		<h1>ログイン</h1>
 		<?php
 		//⑮エラーメッセージの変数に入っている値を表示する
-		 "<div id='error'>", $error, "</div>";
+		echo "<div id='error'>", $error, "</div>";
 		
 		//⑯メッセージの変数に入っている値を表示する
-		 "<div id='msg'>", $mesage, "</div>";
+		echo "<div id='msg'>", $mesage, "</div>";
 		?>
 		<form action="login.php" method="post" id="log">
 			<p>
