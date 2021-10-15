@@ -34,9 +34,9 @@ if(isset($_POST['decisio'])) {
 }
 
 //⑦名前が入力されているか判定する。入力されていた場合はif文の中に入る
-if (isset($user_name)){
+if (!empty($user_name)){
 	//⑧名前に「yse」、パスワードに「2021」と設定されているか確認する。設定されていた場合はif文の中に入る
-	if (strcmp($user_name, "yse") && $password == 2021){
+	if ($user_name == "yse" && $password == 2021){
 		//⑨SESSIONに名前を設定し、SESSIONの「login」フラグをtrueにする
 		$_SESSION["name"]= $user_name;
 		$_SESSION["login"]=true;
