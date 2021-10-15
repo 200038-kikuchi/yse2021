@@ -28,6 +28,7 @@ $db_user="zaiko2021_yse";
 $db_password="2021zaiko";
 $dsn = "mysql:dbname={$db_name};host={$db_host};charset=utf8;port={$db_port}";
 
+
 try {
     $pdo = new PDO($dsn, $db_user, $db_password);
     $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
@@ -37,14 +38,15 @@ try {
     exit;
 }
 
-$books=getBooks($pdo);
-function getBooks($pdo,$limit=20,$offset=0){
-	$sql = "SELECT * FROM books";
-	$stmt = $pdo -> prepare($sql);
-	$stmt->execute();
-}
 
 //⑦書籍テーブルから書籍情報を取得するSQLを実行する。また実行結果を変数に保存する
+$sql = "SELECT * FROM books";
+$stmt = $pdo->query($sql);
+$book = [];
+while ($book = $stmt->fetch(PDO::FETCH_ASSOC)) {
+    $books[] = $book;
+}
+
 ?>
 <!DOCTYPE html>
 <html lang="ja">
@@ -101,33 +103,19 @@ function getBooks($pdo,$limit=20,$offset=0){
 						</tr>
 					</thead>
 					<tbody>
-					<?php foreach($books as $books) : ?>
-							<?php extract($books);?>
-							<tr id="books">
-								echo "<td id='check'><input type='checkbox' name='books[]'value="<?=$books?>"></td>";
-								echo "<td id='id'><?=$id?></td>";
-								echo "<td id='title'><?=$title?></td>";
-								echo "<td id='author'><?=$author?></td>";
-								echo "<td id='date'><?=$date?></td>";
-								echo "<td id='price'><?=$price?></td>";
-								echo "<td id='stock'><?=$stock?></td>";
-							</tr>
-						<?php endforeach ?>
-						<!-- // // ⑩SQLの実行結果の変数から1レコードのデータを取り出す。レコードがない場合はループを終了する。
-						// while($book=$stmt ->fetch(PDO::FETCH_ASSOC)/* ⑩の処理を書く */){
-						// 	// //⑪extract変数を使用し、1レコードのデータを渡す。
-						// 	extract ( array &$array [, int $flags = EXTR_OVERWRITE [, string $prefix = NULL ]] ) : int
-						// 	echo "<tr id='book'>";
-						// 	echo "<td id='check'><input type='checkbox' name='books[]'value=".$books/* ⑫IDを設定する */."></td>";
-						// 	echo "<td id='id'>/* ⑬IDを表示する */</td>";
-						// 	echo "<td id='title'>/* ⑭titleを表示する */</td>";
-						// 	echo "<td id='author'>/* ⑮authorを表示する */</td>";
-						// 	echo "<td id='date'>/* ⑯salesDateを表示する */</td>";
-						// 	echo "<td id='price'>/* ⑰priceを表示する */</td>";
-						// 	echo "<td id='stock'>/* ⑱stockを表示する */</td>";
-
-						// 	echo "</tr>";
-						// } -->
+						<?php foreach ($books as $book) : ?>
+							<?php extract($book);?>
+								<tr id="book">
+									<td id='check'><input type='checkbox' name='books[]'value="id"></td>
+									<td id='id'><?=$id?></td>
+									<td id='title'><?=$title?></td>
+									<td id='author'><?=$author?></td>
+									<td id='salesDate'><?=$salesDate?></td>
+									<td id='price'><?=$price?></td>
+									<td id='stock'><?=$stock?></td>
+								</tr>
+						<?php endforeach?>
+						
 						
 					</tbody>
 				</table>
