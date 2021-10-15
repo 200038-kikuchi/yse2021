@@ -13,10 +13,10 @@
 session_start();
 
 //②SESSIONの「login」フラグがfalseか判定する。「login」フラグがfalseの場合はif文の中に入る。
-if ($_SESSION["login"]==false){
-	$_SESSION["error2"] = "ログインしてください";
-	header('Location: login.php');
-}
+// if (empty($_SESSION["login"]==false)){
+// 	$_SESSION["error2"] = "ログインしてください";
+// 	header('Location: login.php');
+// }
 
 
 $db_name="zaiko2021_yse";
