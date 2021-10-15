@@ -28,9 +28,9 @@ if(isset($_POST['decisio'])) {
 		$password = $_POST["pass"];
 	} else {
 		//⑤名前かパスワードが入力されていない場合は、「名前かパスワードが未入力です」という文言をメッセージを入れる変数に設定する
-		if(empty($_POST["name"]) || empty($_POST["pass"])) {
+		
 			$message = "名前かパスワードが未入力です。";
-        }
+        
      }
 }
 
