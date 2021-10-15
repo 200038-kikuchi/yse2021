@@ -16,32 +16,35 @@ session_start();
 //①名前とパスワードを入れる変数を初期化する
 $user_name ="";
 $passwoerd ="";
+
 /*
  * ②ログインボタンが押されたかを判定する。
  * 押されていた場合はif文の中の処理を行う
  */
-if(isset($_POST['soushin'])) {
-	
-}
+if(isset($_POST['decisio'])) {
 	/*
 	 * ③名前とパスワードが両方とも入力されているかを判定する。
 	 * 入力されていた場合はif文の中の処理を行う。
 	 */
 	if(!empty($_POST["name"]) && !empty($_POST["pass"])) {
 		//④名前とパスワードにPOSTで送られてきた名前とパスワードを設定する
+		$user_name = $_POST["name"]
+		$passwoerd = $_POST["pass"]
 	} else {
 		//⑤名前かパスワードが入力されていない場合は、「名前かパスワードが未入力です」という文言をメッセージを入れる変数に設定する
-		empty($_POST["name"]) && empty($_POST["pass"]) {
-			$errorMessage = "名前かパスワードが未入力です。";
-		}
+		if(empty($_POST["name"]) || empty($_POST["pass"])) {
+		$errorMessage = "名前かパスワードが未入力です。";
+        }
+     }
+}
 
-		} 
-	｝
 //⑦名前が入力されているか判定する。入力されていた場合はif文の中に入る
-if (/* ⑦の処理を書く */) {
+if (!empty($user_name) {
 	//⑧名前に「yse」、パスワードに「2021」と設定されているか確認する。設定されていた場合はif文の中に入る
-	if (/* ⑧の処理を書く */){
+	if ($user_name == "yse" && $passwoerd == 2021){
 		//⑨SESSIONに名前を設定し、SESSIONの「login」フラグをtrueにする
+		$_SESSION["name"]= $user_name;
+		$_SESSION["login"]="true";
 		//⑩在庫一覧画面へ遷移する
 		header(/* ⑩の遷移先を書く */);
 	}else{
