@@ -61,51 +61,66 @@ try{
 	exit;
 }
 //⑩書籍数をカウントするための変数を宣言し、値を0で初期化する
-
+$books = 0;
 //⑪POSTの「books」から値を取得し、変数に設定する。
-foreach(/* ⑪の処理を書く */){
+foreach($_POST["books"] as $book){
 	/*
 	 * ⑫POSTの「stock」について⑩の変数の値を使用して値を取り出す。
 	 * 半角数字以外の文字が設定されていないかを「is_numeric」関数を使用して確認する。
 	 * 半角数字以外の文字が入っていた場合はif文の中に入る。
 	 */
-	if (/* ⑫の処理を書く */) {
+	if (!is_numeric($_POST["stock"][$books])) {
 		//⑬SESSIONの「error」に「数値以外が入力されています」と設定する。
+		$_SESSION["error"] = "数値以外が入力されています。";
 		//⑭「include」を使用して「nyuka.php」を呼び出す。
+		include("nyuka.php");
 		//⑮「exit」関数で処理を終了する。
+		exit;
 	}
 
 	//⑯「getByid」関数を呼び出し、変数に戻り値を入れる。その際引数に⑪の処理で取得した値と⑧のDBの接続情報を渡す。
-
+	$book_data = getByid($book,$pdo);
 	//⑰ ⑯で取得した書籍の情報の「stock」と、⑩の変数を元にPOSTの「stock」から値を取り出し、足した値を変数に保存する。
-
+	$total_stock = $book_data["stock"] + $_POST["stock"][$books];
 	//⑱ ⑰の値が100を超えているか判定する。超えていた場合はif文の中に入る。
-	if(/* ⑱の処理を行う */){
+	if($total_stock > 100){
 		//⑲SESSIONの「error」に「最大在庫数を超える数は入力できません」と設定する。
+		$_SESSION["error"] = "最大在庫数を超える入力はできません。";
 		//⑳「include」を使用して「nyuka.php」を呼び出す。
+		include("nyuka.php");
 		//㉑「exit」関数で処理を終了する。
+		exit;
 	}
 	
 	//㉒ ⑩で宣言した変数をインクリメントで値を1増やす。
+	$books++;
 }
 
 /*
  * ㉓POSTでこの画面のボタンの「add」に値が入ってるか確認する。
  * 値が入っている場合は中身に「ok」が設定されていることを確認する。
  */
-if(/* ㉓の処理を書く */){
+if(isset($_POST["add"]) && $_POST["add"] == "ok"){
 	//㉔書籍数をカウントするための変数を宣言し、値を0で初期化する。
-
+	$books = 0;
 	//㉕POSTの「books」から値を取得し、変数に設定する。
-	foreach(/* ㉕の処理を書く */){
+	$booksPost = $_POST["books"];
+
+	foreach($_POST["books"] as $book){
 		//㉖「getByid」関数を呼び出し、変数に戻り値を入れる。その際引数に㉕の処理で取得した値と⑧のDBの接続情報を渡す。
+		$book_data = getByid($book, $pdo);
 		//㉗ ㉖で取得した書籍の情報の「stock」と、㉔の変数を元にPOSTの「stock」から値を取り出し、足した値を変数に保存する。
+		$total_stock = $book_data["stock"] + $_POST["stock"][$books];
 		//㉘「updateByid」関数を呼び出す。その際に引数に㉕の処理で取得した値と⑧のDBの接続情報と㉗で計算した値を渡す。
+		updateByid($book, $pdo, $total_stock;)
 		//㉙ ㉔で宣言した変数をインクリメントで値を1増やす。
+		$books++;
 	}
 
 	//㉚SESSIONの「success」に「入荷が完了しました」と設定する。
+	$_SESSION["success"] = "入荷が完了しました。";
 	//㉛「header」関数を使用して在庫一覧画面へ遷移する。
+	header("location:zaiko_ichiran.php");
 }
 ?>
 <!DOCTYPE html>
@@ -133,10 +148,11 @@ if(/* ㉓の処理を書く */){
 					<tbody>
 						<?php
 						//㉜書籍数をカウントするための変数を宣言し、値を0で初期化する。
-
+						$books = 0;
 						//㉝POSTの「books」から値を取得し、変数に設定する。
-						foreach(/* ㉝の処理を書く */){
+						foreach($_POST["books"] as $book){
 							//㉞「getByid」関数を呼び出し、変数に戻り値を入れる。その際引数に㉜の処理で取得した値と⑧のDBの接続情報を渡す。
+							$book_data = getByid($book,$pdo);
 						?>
 						<tr>
 							<td><?php echo	/* ㉟ ㉞で取得した書籍情報からtitleを表示する。 */;?></td>
@@ -147,6 +163,7 @@ if(/* ㉓の処理を書く */){
 						<input type="hidden" name="stock[]" value='<?php echo /* ㊳POSTの「stock」に設定されている値を㉜の変数を使用して設定する。 */;?>'>
 						<?php
 							//㊴ ㉜で宣言した変数をインクリメントで値を1増やす。
+							$books++;
 						}
 						?>
 					</tbody>
