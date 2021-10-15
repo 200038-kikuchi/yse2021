@@ -15,7 +15,7 @@
 session_start();
 //①名前とパスワードを入れる変数を初期化する
 $user_name ="";
-$passwoerd ="";
+$password ="";
 
 /*
  * ②ログインボタンが押されたかを判定する。
@@ -29,7 +29,7 @@ if(isset($_POST['decisio'])) {
 	if(!empty($_POST["name"]) && !empty($_POST["pass"])) {
 		//④名前とパスワードにPOSTで送られてきた名前とパスワードを設定する
 		$user_name = $_POST["name"]
-		$passwoerd = $_POST["pass"]
+		$password = $_POST["pass"]
 	} else {
 		//⑤名前かパスワードが入力されていない場合は、「名前かパスワードが未入力です」という文言をメッセージを入れる変数に設定する
 		if(empty($_POST["name"]) || empty($_POST["pass"])) {
