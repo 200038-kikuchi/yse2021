@@ -13,13 +13,11 @@
 session_start();
 
 //②SESSIONの「login」フラグがfalseか判定する。「login」フラグがfalseの場合はif文の中に入る。
-// if (/* ②の処理を書く */){
-// 	//③SESSIONの「error2」に「ログインしてください」と設定する。
-// 	//④ログイン画面へ遷移する。
-// }
-//⑤データベースへ接続し、接続情報を変数に保存する
+if ($_SESSION["login"]==false){
+	$_SESSION["error2"] = "ログインしてください";
+	header('Location: login.php');
+}
 
-//⑥データベースで使用する文字コードを「UTF8」にする
 
 $db_name="zaiko2021_yse";
 $db_host="localhost";
@@ -68,9 +66,9 @@ while ($book = $stmt->fetch(PDO::FETCH_ASSOC)) {
 				 * ⑧SESSIONの「success」にメッセージが設定されているかを判定する。
 				 * 設定されていた場合はif文の中に入る。
 				 */ 
-				// if(/* ⑧の処理を書く */){
-				// 	//⑨SESSIONの「success」の中身を表示する。
-				// }
+				if(isset($_SESSION["success"])){
+					echo $_SESSION["success"];
+				}
 				?>
 			</div>
 			
