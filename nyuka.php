@@ -31,7 +31,7 @@ if (!$_SESSION["login"]){
 //⑦データベースで使用する文字コードを「UTF8」にする
 $db_name = "zaiko2021_yse";
 $db_host = "localhost";
-$db_charset ="utf8";
+$db_charset ="utf-8";
 $dsn ="mysql:dbname={$db_name};host={$db_host};charset={$db_charset}";
 $user ="zaiko2021_yse";
 $pass ="2021zaiko";

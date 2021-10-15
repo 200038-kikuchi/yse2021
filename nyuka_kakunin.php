@@ -16,8 +16,12 @@ function getByid($id,$con){
 	 * その際にWHERE句でメソッドの引数の$idに一致する書籍のみ取得する。
 	 * SQLの実行結果を変数に保存する。
 	 */
+	$sql = "SELECT * FROM books WHERE :id = id";
+	$stmt = $con->prepare($sql);
+	$stmt->excute([:id => $id]);
 
 	//③実行した結果から1レコード取得し、returnで値を返す。
+	return $stmt->fetch();
 }
 
 function updateByid($id,$con,$total){
@@ -26,18 +30,36 @@ function updateByid($id,$con,$total){
 	 * 引数で受け取った$totalの値で在庫数を上書く。
 	 * その際にWHERE句でメソッドの引数に$idに一致する書籍のみ取得する。
 	 */
+	$sql = "UPDATE books SET stock=:total WHERE :id = id";
+	$stmt = $con -> prepare($sql);
+	$stmt -> excute([":total" => $total, ":id" => $id]);
 }
 
 //⑤SESSIONの「login」フラグがfalseか判定する。「login」フラグがfalseの場合はif文の中に入る。
-if (/* ⑤の処理を書く */){
+if (!$_SESSION["login"]){
 	//⑥SESSIONの「error2」に「ログインしてください」と設定する。
+	$_SESSION["success"] = "入荷する商品が選択されていません。";
 	//⑦ログイン画面へ遷移する。
+	header("Locatiomn:zaiko_ichiran.php");
 }
 
 //⑧データベースへ接続し、接続情報を変数に保存する
-
+$db_name = "zaiko2021_yse";
+$db_host = "localhost";
 //⑨データベースで使用する文字コードを「UTF8」にする
+$db_charset = "utf-8"
 
+$dsn ="mysql:dbname={$db_name};host={$db_host};charset={$db_charset}";
+$user = "zaiko2021_yse";
+$pass = "2021zaiko";
+try{
+	$pdo = new PDO($dsn,$user,$pass);
+	$pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+	$pdo->setAttribute(PDO::ATTR_EMULATE_PREPARES, false);
+}catch(PDOException $e){
+	echo "接続エラー";
+	exit;
+}
 //⑩書籍数をカウントするための変数を宣言し、値を0で初期化する
 
 //⑪POSTの「books」から値を取得し、変数に設定する。
