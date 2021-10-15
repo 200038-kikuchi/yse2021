@@ -20,7 +20,7 @@ $message = "";
 $error = "";
 
 
-if(isset($_POST['decisio'])) {
+if(isset($_POST['decision'])) {
 
 	if(!empty($_POST["name"]) && !empty($_POST["pass"])) {
 		//④名前とパスワードにPOSTで送られてきた名前とパスワードを設定する
