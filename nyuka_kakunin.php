@@ -8,7 +8,7 @@
 なし
 */
 
-//①セッションを開始する
+session_start();
 
 function getByid($id,$con){
 	/* 
