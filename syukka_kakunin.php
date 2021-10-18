@@ -42,6 +42,10 @@ if (empty($_SESSION['login'])){
 	$_SESSION['error2'] = "ログインしてください";
 	header(("Location:login.php"));
 }
+if(empty($_POST["books"])){
+	$_SESSION["success"] = "出荷する商品が選択されていません";
+	header("Location:zaiko_ichiran.php");
+}
 
 //⑧データベースへ接続し、接続情報を変数に保存する
 //⑨データベースで使用する文字コードを「UTF8」にする
