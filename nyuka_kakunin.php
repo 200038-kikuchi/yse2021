@@ -11,21 +11,13 @@
 session_start();
 
 function getByid($id,$con){
-	$sql = "SELECT * FROM books WHERE id = :id";
-	$stmt = $con->queli($sql);
-	$stmt->excute(["id" => $id]);
-	return $stmt->fetch(PDO::FETCH_ASSOC);
+	$sql = "SELECT * FROM books WHERE id ={$id}";
+	return $con->queli($sql)->fetch(PDO::FETCH_ASSOC);
 }
 
 function updateByid($id,$con,$total){
-	/*
-	 * ④書籍情報の在庫数を更新するSQLを実行する。
-	 * 引数で受け取った$totalの値で在庫数を上書く。
-	 * その際にWHERE句でメソッドの引数に$idに一致する書籍のみ取得する。
-	 */
-	$sql = "UPDATE books SET stock=:total WHERE :id = id";
-	$stmt = $con -> prepare($sql);
-	$stmt -> excute([":total" => $total, ":id" => $id]);
+	$sql = "UPDATE books SET stock={$total} WHERE :id = {$id}";
+	$stmt = $con -> queli($sql);
 }
 
 //⑤SESSIONの「login」フラグがfalseか判定する。「login」フラグがfalseの場合はif文の中に入る。

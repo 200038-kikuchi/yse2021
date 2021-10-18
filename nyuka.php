@@ -40,9 +40,7 @@ if(empty($_POST["books"])){
 
 function getId($id,$con){
 	$sql = "SELECT * FROM books WHERE id ={$id}";
-	$stmt = $con->queli($sql);
-	$stmt->execute(["id" => $id]);
-	return $stmt->fetch(PDO::FETCH_ASSOC);
+	return $con->queli($sql)->fetch(PDO::FETCH_ASSOC);
 }
 
 ?>
