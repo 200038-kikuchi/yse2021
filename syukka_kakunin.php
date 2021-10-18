@@ -30,7 +30,7 @@ function updateByid($id,$con,$total){
 	 * 引数で受け取った$totalの値で在庫数を上書く。
 	 * その際にWHERE句でメソッドの引数に$idに一致する書籍のみ取得する。
 	 */
-	$sql ="UPDATE books SET stock = $total WERE :id = id";
+	$sql ="UPDATE books SET stock = $total WHERE :id = id";
 	$stmt = $con->prepare($sql);
 	$stmt-> execute([":id" => $id]);
 }
