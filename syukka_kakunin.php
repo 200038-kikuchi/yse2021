@@ -9,15 +9,19 @@
 */
 
 //①セッションを開始する
-
+session_start();
 function getByid($id,$con){
 	/* 
 	 * ②書籍を取得するSQLを作成する実行する。
 	 * その際にWHERE句でメソッドの引数の$idに一致する書籍のみ取得する。
 	 * SQLの実行結果を変数に保存する。
 	 */
+	$sql ="SElECT * FROM books WHERE :id = id";
+	$stmt = $con ->prepare($sql);
+	$stmt ->execute([":id" => $id]);
 
 	//③実行した結果から1レコード取得し、returnで値を返す。
+	return $stmt ->fetch();
 }
 
 function updateByid($id,$con,$total){
@@ -26,28 +30,41 @@ function updateByid($id,$con,$total){
 	 * 引数で受け取った$totalの値で在庫数を上書く。
 	 * その際にWHERE句でメソッドの引数に$idに一致する書籍のみ取得する。
 	 */
+	$sql ="UPDATE books SET stock = $total WERE :id = id";
+	$stmt = $con->prepare($sql);
+	$stmt-> execute([":id" => $id]);
 }
 
 //⑤SESSIONの「login」フラグがfalseか判定する。「login」フラグがfalseの場合はif文の中に入る。
-if (/* ⑤の処理を書く */){
+if (empty($_SESSION['login'])){
 	//⑥SESSIONの「error2」に「ログインしてください」と設定する。
 	//⑦ログイン画面へ遷移する。
+	$_SESSION['error2'] = "ログインしてください";
+	header(("Location:login.php"));
 }
 
 //⑧データベースへ接続し、接続情報を変数に保存する
-
 //⑨データベースで使用する文字コードを「UTF8」にする
-
+$dsn ="mysql:dbname=zaiko2021_yse;host=localhost;charset=utf8";
+$user ="zaiko2021_yse";
+$pass ="2021zaiko";
+try{
+	$pdo = new PDO($dsn,$user,$pass);
+}catch(PDOException $e){
+	echo "接続エラー";
+	exit;
+}
 //⑩書籍数をカウントするための変数を宣言し、値を0で初期化する
+$count = 0;
 
 //⑪POSTの「books」から値を取得し、変数に設定する。
-foreach(/* ⑪の処理を書く */){
+foreach($_POST['books'] as $book){
 	/*
 	 * ⑫POSTの「stock」について⑩の変数の値を使用して値を取り出す。
 	 * 半角数字以外の文字が設定されていないかを「is_numeric」関数を使用して確認する。
 	 * 半角数字以外の文字が入っていた場合はif文の中に入る。
 	 */
-	if (/* ⑫の処理を書く */) {
+	if (!is_numeric($_POST["stock"][$count])) {
 		//⑬SESSIONの「error」に「数値以外が入力されています」と設定する。
 		//⑭「include」を使用して「syukka.php」を呼び出す。
 		//⑮「exit」関数で処理を終了する。
