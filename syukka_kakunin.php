@@ -49,16 +49,11 @@ if(empty($_POST["books"])){
 
 //⑧データベースへ接続し、接続情報を変数に保存する
 //⑨データベースで使用する文字コードを「UTF8」にする
-$db_name="zaiko2021_yse";
-$db_host="localhost";
-$db_port="3306";
-$db_user="zaiko2021_yse";
-$db_password="2021zaiko";
-$dsn = "mysql:dbname={$db_name};host={$db_host};charset=utf8;port={$db_port}";
+$dsn ="mysql:dbname=zaiko2021_yse;host=localhost;charset=utf8";
+$user ="zaiko2021_yse";
+$pass ="2021zaiko";
 try{
 	$pdo = new PDO($dsn,$user,$pass);
-	$pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-	$pdo->setAttribute(PDO::ATTR_EMULATE_PREPARES, false);
 }catch(PDOException $e){
 	echo "接続エラー";
 	exit;
