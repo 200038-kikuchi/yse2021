@@ -104,7 +104,7 @@ while ($book = $stmt->fetch(PDO::FETCH_ASSOC)) {
 						<?php foreach ($books as $book) : ?>
 							<?php extract($book);?>
 								<tr id="book">
-									<td id='check'><input type='checkbox' name='books[]'value="id"></td>
+									<td id='check'><input type='checkbox' name='books[]'value=<?=$id?>></td>
 									<td id='id'><?=$id?></td>
 									<td id='title'><?=$title?></td>
 									<td id='author'><?=$author?></td>
