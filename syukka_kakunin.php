@@ -30,7 +30,7 @@ function updateByid($id,$con,$total){
 	 * 引数で受け取った$totalの値で在庫数を上書く。
 	 * その際にWHERE句でメソッドの引数に$idに一致する書籍のみ取得する。
 	 */
-	$sql ="UPDATE books SET stock = $total WERE :id = id";
+	$sql ="UPDATE books SET stock = $total WHERE :id = id";
 	$stmt = $con->prepare($sql);
 	$stmt-> execute([":id" => $id]);
 }
@@ -42,19 +42,18 @@ if (empty($_SESSION['login'])){
 	$_SESSION['error2'] = "ログインしてください";
 	header(("Location:login.php"));
 }
+if(empty($_POST["books"])){
+	$_SESSION["success"] = "出荷する商品が選択されていません";
+	header("Location:zaiko_ichiran.php");
+}
 
 //⑧データベースへ接続し、接続情報を変数に保存する
 //⑨データベースで使用する文字コードを「UTF8」にする
-$db_name="zaiko2021_yse";
-$db_host="localhost";
-$db_port="3306";
-$db_user="zaiko2021_yse";
-$db_password="2021zaiko";
-$dsn = "mysql:dbname={$db_name};host={$db_host};charset=utf8;port={$db_port}";
+$dsn ="mysql:dbname=zaiko2021_yse;host=localhost;charset=utf8";
+$user ="zaiko2021_yse";
+$pass ="2021zaiko";
 try{
 	$pdo = new PDO($dsn,$user,$pass);
-	$pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-	$pdo->setAttribute(PDO::ATTR_EMULATE_PREPARES, false);
 }catch(PDOException $e){
 	echo "接続エラー";
 	exit;
@@ -145,20 +144,22 @@ if(isset($_POST["add"]) && $_POST["add"]=="ok"){
 				<tbody>
 					<?php 
 					//㉜書籍数をカウントするための変数を宣言し、値を0で初期化する。
-
+					$books =0;
 					//㉝POSTの「books」から値を取得し、変数に設定する。
-					foreach(/* ㉝の処理を書く */){
+					foreach($_POST["books"] as $book){
 						//㉞「getByid」関数を呼び出し、変数に戻り値を入れる。その際引数に㉜の処理で取得した値と⑧のDBの接続情報を渡す。
+						$book_data = getByid($book,$pdo);	
 					?>
 					<tr>
-						<td><?php echo	/* ㉟ ㉞で取得した書籍情報からtitleを表示する。 */;?></td>
-						<td><?php echo	/* ㊱ ㉞で取得した書籍情報からstockを表示する。 */;?></td>
-						<td><?php echo	/* ㊲ POSTの「stock」に設定されている値を㉜の変数を使用して呼び出す。 */;?></td>
+						<td><?php echo	$book_data["title"];?></td>
+						<td><?php echo	$book_data["stock"];?></td>
+						<td><?php echo	$_POST["stock"][$books];?></td>
 					</tr>
-					<input type="hidden" name="books[]" value="<?php echo /* ㊳ ㉝で取得した値を設定する */;?>">
-					<input type="hidden" name="stock[]" value='<?php echo /* ㊴「POSTの「stock」に設定されている値を㉜の変数を使用して設定する。 */;?>'>
+					<input type="hidden" name="books[]" value="<?php echo $book;?>">
+					<input type="hidden" name="stock[]" value='<?php echo $_POST['stock'][$books];?>'>
 					<?php
 						//㊵ ㉜で宣言した変数をインクリメントで値を1増やす。
+						$books++;
 					}
 					?>
 				</tbody>
