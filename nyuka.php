@@ -27,12 +27,14 @@ $db_port="3306";
 $db_user="zaiko2021_yse";
 $db_password="2021zaiko";
 $dsn = "mysql:dbname={$db_name};host={$db_host};charset=utf8;port={$db_port}";
-try{
-	$pdo = new PDO($dsn,$user,$pass);
-}catch(PDOException $e){
-	echo "接続エラー";
+try {
+    $pdo = new PDO($dsn, $db_user, $db_password);
+    $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+    $pdo->setAttribute(PDO::ATTR_EMULATE_PREPARES, false);
+} catch (PDOException $e) {
+    echo "接続失敗: " . $e->getMessage();
+    exit;
 }
-
 if(empty($_POST["books"])){
 	$_SESSION["success"] ="入荷する商品が選択されていません";
 	header("Location:zaiko_ichiran.php");
@@ -40,7 +42,7 @@ if(empty($_POST["books"])){
 
 function getId($id,$con){
 	$sql = "SELECT * FROM books WHERE id ={$id}";
-	return $con->queli($sql)->fetch(PDO::FETCH_ASSOC);
+	return $con -> query($sql) -> fetch(PDO::FETCH_ASSOC);
 }
 
 ?>
