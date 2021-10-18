@@ -41,7 +41,6 @@ try{
 	echo "接続エラー";
 }
 
-
 //⑧POSTの「books」の値が空か判定する。空の場合はif文の中に入る。
 if(empty($_POST["books"])){
 	//⑨SESSIONの「success」に「入荷する商品が選択されていません」と設定する。

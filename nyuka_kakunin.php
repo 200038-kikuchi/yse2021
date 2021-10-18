@@ -44,14 +44,12 @@ if (!$_SESSION["login"]){
 }
 
 //⑧データベースへ接続し、接続情報を変数に保存する
-$db_name = "zaiko2021_yse";
-$db_host = "localhost";
-//⑨データベースで使用する文字コードを「UTF8」にする
-$db_charset = "utf-8"
-
-$dsn ="mysql:dbname={$db_name};host={$db_host};charset={$db_charset}";
-$user = "zaiko2021_yse";
-$pass = "2021zaiko";
+$db_name="zaiko2021_yse";
+$db_host="localhost";
+$db_port="3306";
+$db_user="zaiko2021_yse";
+$db_password="2021zaiko";
+$dsn = "mysql:dbname={$db_name};host={$db_host};charset=utf8;port={$db_port}";
 try{
 	$pdo = new PDO($dsn,$user,$pass);
 	$pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
@@ -70,11 +68,8 @@ foreach($_POST["books"] as $book){
 	 * 半角数字以外の文字が入っていた場合はif文の中に入る。
 	 */
 	if (!is_numeric($_POST["stock"][$books])) {
-		//⑬SESSIONの「error」に「数値以外が入力されています」と設定する。
-		$_SESSION["error"] = "数値以外が入力されています。";
-		//⑭「include」を使用して「nyuka.php」を呼び出す。
+		$_SESSION["error"] = "数値以外が入力されています。"
 		include("nyuka.php");
-		//⑮「exit」関数で処理を終了する。
 		exit;
 	}
 
