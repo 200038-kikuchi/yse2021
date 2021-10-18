@@ -16,12 +16,10 @@ function getByid($id,$con){
 	 * その際にWHERE句でメソッドの引数の$idに一致する書籍のみ取得する。
 	 * SQLの実行結果を変数に保存する。
 	 */
-	$sql ="SElECT * FROM books WHERE :id = id";
-	$stmt = $con ->prepare($sql);
-	$stmt ->execute([":id" => $id]);
+	$sql = "SELECT * FROM books WHERE id ={$id}";
+	return $con->query($sql)->fetch(PDO::FETCH_ASSOC);
 
 	//③実行した結果から1レコード取得し、returnで値を返す。
-	return $stmt ->fetch();
 }
 
 function updateByid($id,$con,$total){
@@ -30,33 +28,34 @@ function updateByid($id,$con,$total){
 	 * 引数で受け取った$totalの値で在庫数を上書く。
 	 * その際にWHERE句でメソッドの引数に$idに一致する書籍のみ取得する。
 	 */
-	$sql ="UPDATE books SET stock = $total WHERE :id = id";
-	$stmt = $con->prepare($sql);
-	$stmt-> execute([":id" => $id]);
+	$sql = "UPDATE books SET stock={$total} WHERE id = {$id}";
+	$stmt = $con -> query($sql);
 }
 
 //⑤SESSIONの「login」フラグがfalseか判定する。「login」フラグがfalseの場合はif文の中に入る。
-if (empty($_SESSION['login'])){
+if (!$_SESSION["login"])){
 	//⑥SESSIONの「error2」に「ログインしてください」と設定する。
 	//⑦ログイン画面へ遷移する。
-	$_SESSION['error2'] = "ログインしてください";
-	header(("Location:login.php"));
-}
-if(empty($_POST["books"])){
 	$_SESSION["success"] = "出荷する商品が選択されていません";
-	header("Location:zaiko_ichiran.php");
+	header("Locatiomn:zaiko_ichiran.php");
 }
 
 //⑧データベースへ接続し、接続情報を変数に保存する
 //⑨データベースで使用する文字コードを「UTF8」にする
-$dsn ="mysql:dbname=zaiko2021_yse;host=localhost;charset=utf8";
-$user ="zaiko2021_yse";
-$pass ="2021zaiko";
-try{
-	$pdo = new PDO($dsn,$user,$pass);
-}catch(PDOException $e){
-	echo "接続エラー";
-	exit;
+$db_name="zaiko2021_yse";
+$db_host="localhost";
+$db_port="3306";
+$db_user="zaiko2021_yse";
+$db_password="2021zaiko";
+$dsn = "mysql:dbname={$db_name};host={$db_host};charset=utf8;port={$db_port}";
+
+try {
+    $pdo = new PDO($dsn, $db_user, $db_password);
+    $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+    $pdo->setAttribute(PDO::ATTR_EMULATE_PREPARES, false);
+} catch (PDOException $e) {
+    echo "接続失敗: " . $e->getMessage();
+    exit;
 }
 //⑩書籍数をカウントするための変数を宣言し、値を0で初期化する
 $count = 0;
