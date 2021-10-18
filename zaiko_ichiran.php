@@ -13,10 +13,10 @@
 session_start();
 
 //②SESSIONの「login」フラグがfalseか判定する。「login」フラグがfalseの場合はif文の中に入る。
-// if (empty($_SESSION["login"]==false)){
-// 	$_SESSION["error2"] = "ログインしてください";
-// 	header('Location: login.php');
-// }
+if (empty($_SESSION["login"])){
+	$_SESSION["error2"] = "ログインしてください";
+	header('Location: login.php');
+}
 
 
 $db_name="zaiko2021_yse";
@@ -104,7 +104,7 @@ while ($book = $stmt->fetch(PDO::FETCH_ASSOC)) {
 						<?php foreach ($books as $book) : ?>
 							<?php extract($book);?>
 								<tr id="book">
-									<td id='check'><input type='checkbox' name='books[]'value="id"></td>
+									<td id='check'><input type='checkbox' name='books[]'value=<?=$id?>></td>
 									<td id='id'><?=$id?></td>
 									<td id='title'><?=$title?></td>
 									<td id='author'><?=$author?></td>
