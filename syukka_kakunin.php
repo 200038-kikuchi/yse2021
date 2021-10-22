@@ -67,7 +67,7 @@ foreach($_POST["books"] as $book){
 	 * 半角数字以外の文字が設定されていないかを「is_numeric」関数を使用して確認する。
 	 * 半角数字以外の文字が入っていた場合はif文の中に入る。
 	 */
-	if (!is_numeric($_POST["stock"][$count])) {
+	if (!is_numeric($_POST["stock"][$books])) {
 		//⑬SESSIONの「error」に「数値以外が入力されています」と設定する。
 		$_SESSION["error"]="数値以外が入力されています。";
 		//⑭「include」を使用して「syukka.php」を呼び出す。
