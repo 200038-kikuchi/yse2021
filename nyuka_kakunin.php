@@ -1,12 +1,4 @@
 <?php
-/* 
-【機能】
-入荷で入力された個数を表示する。入荷を実行した場合は対象の書籍の在庫数に入荷数を加
-えた数でデータベースの書籍の在庫数を更新する。
-
-【エラー一覧（エラー表示：発生条件）】
-なし
-*/
 
 session_start();
 
@@ -20,7 +12,6 @@ function updateByid($id,$con,$total){
 	$stmt = $con -> query($sql);
 }
 
-//⑤SESSIONの「login」フラグがfalseか判定する。「login」フラグがfalseの場合はif文の中に入る。
 if (!$_SESSION["login"]){
 	//⑥SESSIONの「error2」に「ログインしてください」と設定する。
 	$_SESSION["success"] = "入荷する商品が選択されていません。";
@@ -136,11 +127,11 @@ if(isset($_POST["add"]) && $_POST["add"] == "ok"){
 						?>
 						<tr>
 							<td><?php echo	$book_data["title"];?></td>
-							<td><?php echo	$book_data["stock"];/* ㊱ ㉞で取得した書籍情報からstockを表示する。 */;?></td>
-							<td><?php echo	$_POST["stock"][$books];/* ㊱ POSTの「stock」に設定されている値を㉜の変数を使用して呼び出す。 */;?></td>
+							<td><?php echo	$book_data["stock"];?></td>
+							<td><?php echo	$_POST["stock"][$books];?></td>
 						</tr>
 						<input type="hidden" name="books[]" value="<?php echo $books; ?>">
-						<input type="hidden" name="stock[]" value='<?php echo $_POST["stock"][$books];/* ㊳POSTの「stock」に設定されている値を㉜の変数を使用して設定する。 */;?>'>
+						<input type="hidden" name="stock[]" value='<?php echo $_POST["stock"][$books];?>'>
 						<?php
 							//㊴ ㉜で宣言した変数をインクリメントで値を1増やす。
 							$books++;
