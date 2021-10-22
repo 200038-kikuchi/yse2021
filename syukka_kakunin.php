@@ -79,7 +79,7 @@ foreach($_POST["books"] as $book){
 	//⑯「getByid」関数を呼び出し、変数に戻り値を入れる。その際引数に⑪の処理で取得した値と⑧のDBの接続情報を渡す。
 	$book_data = getByid($book,$pdo);
 	//⑰ ⑯で取得した書籍の情報の「stock」と、⑩の変数を元にPOSTの「stock」から値を取り出して書籍情報の「stock」から値を引いた値を変数に保存する。
-	$total_stock = $book_data["stock"] - $_POST["stock"][$count];
+	$total_stock = $book_data["stock"] - $_POST["stock"][$books];
 	//⑱ ⑰の値が0未満か判定する。0未満の場合はif文の中に入る。
 	if($total_stock < 0){
 		//⑲SESSIONの「error」に「出荷する個数が在庫数を超えています」と設定する。
@@ -114,7 +114,7 @@ if(isset($_POST["add"]) && $_POST["add"]=="ok"){
 	}
 
 	//㉚SESSIONの「success」に「入荷が完了しました」と設定する。
-	$_SESSION["success"] ="入荷が完了しました";
+	$_SESSION["success"] ="出荷が完了しました";
 	//㉛「header」関数を使用して在庫一覧画面へ遷移する。
 	header("location:zaiko_ichiran.php");
 }
