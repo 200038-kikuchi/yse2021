@@ -106,7 +106,7 @@ if(isset($_POST["add"]) && $_POST["add"]=="ok"){
 		//㉖「getByid」関数を呼び出し、変数に戻り値を入れる。その際引数に㉕の処理で取得した値と⑧のDBの接続情報を渡す。
 		$book_data = getByid($book,$pdo);
 		//㉗ ㉖で取得した書籍の情報の「stock」と、㉔の変数を元にPOSTの「stock」から値を取り出して書籍情報の「stock」から値を引いた値を変数に保存する。
-		$total_stock = $book_data["stock"] - $_POST["stock"][$count];
+		$total_stock = $book_data["stock"] - $_POST["stock"][$books];
 		//㉘「updateByid」関数を呼び出す。その際に引数に㉕の処理で取得した値と⑧のDBの接続情報と㉗で計算した値を渡す。
 		updateByid($book,$pdo,$total_stock);
 		//㉙ ㉔で宣言した変数をインクリメントで値を1増やす。
