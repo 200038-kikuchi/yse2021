@@ -13,11 +13,11 @@
  * ①session_status()の結果が「PHP_SESSION_NONE」と一致するか判定する。
  * 一致した場合はif文の中に入る。
  */
-if (session_start()==PHP_SESSION_NONE) {
+if (session_status()==PHP_SESSION_NONE) {
 	session_start();
 
 //③SESSIONの「login」フラグがfalseか判定する。「login」フラグがfalseの場合はif文の中に入る。
-if (empty($_SESSION["login"]==false)){
+if ($_SESSION["login"]==false){
 	$_SESSION["error2"] = "ログインしてください";
 	header('Location: login.php');
 }
@@ -51,8 +51,8 @@ function getId($id,$con){
 	 */
 
 	//⑫実行した結果から1レコード取得し、returnで値を返す。
-	$sql = "SELECT * FROM books cities WHERE id = ";
-	return ;
+	$sql = "SELECT * FROM books WHERE id ={$id}";
+	return $con -> query($sql) -> fetch(PDO::FETCH_ASSOC);
 
 
 }
@@ -110,17 +110,19 @@ function getId($id,$con){
 				/*
 				 * ⑮POSTの「books」から一つずつ値を取り出し、変数に保存する。
 				 */
-				foreach($books as $book){
+
+				foreach($_POST["books"] as $id){
+					$book = getId($id,$pdo);
 					// ⑯「getId」関数を呼び出し、変数に戻り値を入れる。その際引数に⑮の処理で取得した値と⑥のDBの接続情報を渡す。
 				?>
-				<input type="hidden" value="<?php //echo	/* ⑰ ⑯の戻り値からidを取り出し、設定する */;?>" name="books[]">
+				<input type="hidden" value="<?php echo	$book["id"];?>" name="books[]">
 				<tr>
-				<td><?php //echo	$book["id"] ;?></td>
-					<td><?php //echo	/* ⑲ ⑯の戻り値からtitleを取り出し、表示する */;?></td>
-					<td><?php //echo	/* ⑳ ⑯の戻り値からauthorを取り出し、表示する */;?></td>
-					<td><?php //echo	/* ㉑ ⑯の戻り値からsalesDateを取り出し、表示する */;?></td>
-					<td><?php //echo	/* ㉒ ⑯の戻り値からpriceを取り出し、表示する */;?></td>
-					<td><?php //echo	/* ㉓ ⑯の戻り値からstockを取り出し、表示する */;?></td>
+				<td><?php echo	$book["id"] ;?></td>
+					<td><?php echo	$book["title"];?></td>
+					<td><?php echo	$book["author"];?></td>
+					<td><?php echo	$book["salesDate"];?></td>
+					<td><?php echo	$book["price"];?></td>
+					<td><?php echo	$book["stock"];?></td>
 					<td><input type='text' name='stock[]' size='5' maxlength='11' required></td>
 				</tr>
 				<?php
