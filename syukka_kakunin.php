@@ -61,7 +61,7 @@ try {
 $books = 0;
 
 //⑪POSTの「books」から値を取得し、変数に設定する。
-foreach($_POST['books'] as $book){
+foreach($_POST["books"] as $book){
 	/*
 	 * ⑫POSTの「stock」について⑩の変数の値を使用して値を取り出す。
 	 * 半角数字以外の文字が設定されていないかを「is_numeric」関数を使用して確認する。
