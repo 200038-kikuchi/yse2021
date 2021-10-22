@@ -33,7 +33,7 @@ function updateByid($id,$con,$total){
 }
 
 //⑤SESSIONの「login」フラグがfalseか判定する。「login」フラグがfalseの場合はif文の中に入る。
-if (!$_SESSION["login"])){
+if (!$_SESSION["login"]){
 	//⑥SESSIONの「error2」に「ログインしてください」と設定する。
 	//⑦ログイン画面へ遷移する。
 	$_SESSION["success"] = "出荷する商品が選択されていません";
@@ -58,7 +58,7 @@ try {
     exit;
 }
 //⑩書籍数をカウントするための変数を宣言し、値を0で初期化する
-$count = 0;
+$books = 0;
 
 //⑪POSTの「books」から値を取得し、変数に設定する。
 foreach($_POST['books'] as $book){
@@ -99,8 +99,9 @@ foreach($_POST['books'] as $book){
  */
 if(isset($_POST["add"]) && $_POST["add"]=="ok"){
 	//㉔書籍数をカウントするための変数を宣言し、値を0で初期化する。
-	$count = 0;
+	$books = 0;
 	//㉕POSTの「books」から値を取得し、変数に設定する。
+	$booksPost = $_POST["books"];
 	foreach($_POST["books"] as $book){
 		//㉖「getByid」関数を呼び出し、変数に戻り値を入れる。その際引数に㉕の処理で取得した値と⑧のDBの接続情報を渡す。
 		$book_data = getByid($book,$pdo);
@@ -109,7 +110,7 @@ if(isset($_POST["add"]) && $_POST["add"]=="ok"){
 		//㉘「updateByid」関数を呼び出す。その際に引数に㉕の処理で取得した値と⑧のDBの接続情報と㉗で計算した値を渡す。
 		updateByid($book,$pdo,$total_stock);
 		//㉙ ㉔で宣言した変数をインクリメントで値を1増やす。
-		$count++;
+		$books++;
 	}
 
 	//㉚SESSIONの「success」に「入荷が完了しました」と設定する。
