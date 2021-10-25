@@ -130,7 +130,7 @@ if(isset($_POST["add"]) && $_POST["add"] == "ok"){
 							<td><?php echo	$book_data["stock"];?></td>
 							<td><?php echo	$_POST["stock"][$books];?></td>
 						</tr>
-						<input type="hidden" name="books[]" value="<?php echo $books; ?>">
+						<input type="hidden" name="books[]" value="<?php echo $book_data["id"]; ?>">
 						<input type="hidden" name="stock[]" value='<?php echo $_POST["stock"][$books];?>'>
 						<?php
 							//㊴ ㉜で宣言した変数をインクリメントで値を1増やす。
