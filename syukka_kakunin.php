@@ -36,8 +36,8 @@ function updateByid($id,$con,$total){
 if (!$_SESSION["login"]){
 	//⑥SESSIONの「error2」に「ログインしてください」と設定する。
 	//⑦ログイン画面へ遷移する。
-	$_SESSION["success"] = "出荷する商品が選択されていません";
-	header("Location:zaiko_ichiran.php");
+	$_SESSION["error2"]="ログインしてください";
+	header("Location:login.php");
 }
 
 //⑧データベースへ接続し、接続情報を変数に保存する
