@@ -14,8 +14,8 @@ function updateByid($id,$con,$total){
 
 if (!$_SESSION["login"]){
 	//⑥SESSIONの「error2」に「ログインしてください」と設定する。
-	$_SESSION["error2"]="ログインしてください";
-	header("Location:login.php");
+	
+	header("location:zaiko_ichiran.php");
 }
 
 //⑧データベースへ接続し、接続情報を変数に保存する
@@ -34,6 +34,13 @@ try {
     echo "接続失敗: " . $e->getMessage();
     exit;
 }
+if ($_POST["books"]==null){
+	//⑥SESSIONの「error2」に「ログインしてください」と設定する。
+	//⑦ログイン画面へ遷移する。
+	$_SESSION["error2"]="ログインしてください";
+	header("Location:login.php");
+}
+
 //⑩書籍数をカウントするための変数を宣言し、値を0で初期化する
 $books = 0;
 //⑪POSTの「books」から値を取得し、変数に設定する。
