@@ -117,7 +117,7 @@ function getId($id,$con){
 				?>
 				<input type="hidden" value="<?php echo	$book["id"];?>" name="books[]">
 				<tr>
-				<td><?php echo	$book["id"] ;?></td>
+					<td><?php echo	$book["id"] ;?></td>
 					<td><?php echo	$book["title"];?></td>
 					<td><?php echo	$book["author"];?></td>
 					<td><?php echo	$book["salesDate"];?></td>
